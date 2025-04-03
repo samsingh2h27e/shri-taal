@@ -6,11 +6,13 @@ import cors from "cors";
 import MongoStore from "connect-mongo";
 import jwt from "jsonwebtoken";
 import cookieParser from "cookie-parser";
+import env from 'dotenv';
+env.config();
 
 const app = express();
 
 app.use(cors({
-    origin: "http://localhost:5173",
+    origin: process.env.URL_FRONTEND,
     methods: "GET,POST,PUT,DELETE", 
     credentials: true
   }));
@@ -31,7 +33,7 @@ app.get("/",(req,res)=>{
         res.json({message:"No token found"});
     }
     else{
-        let token = jwt.verify(req.cookies.token,"secret");
+        let token = jwt.verify(req.cookies.token,process.env.SECRET_KEY);
         // console.log(token);
         if(!token){
             res.json({message:"Invalid token"});
@@ -47,7 +49,7 @@ app.post("/register",async (req,res)=>{
         // console.log(req.body);
         let user = new User(req.body);
         await user.save();
-        let token = jwt.sign({name:user.name},"secret");
+        let token = jwt.sign({name:user.name},process.env.SECRET_KEY);
         // console.log(token);
         res.cookie("token",token,{ maxAge: 7 * 24 * 60 * 60 * 1000});
         res.status(201).json({ message: "User registered successfully", user: user });
@@ -63,7 +65,7 @@ app.post("/login",async (req, res) => {
             res.json({ message: "User not found" });
         }
         else{
-            let token = jwt.sign({name:user.name},"secret");
+            let token = jwt.sign({name:user.name},process.env.SECRET_KEY);
             res.cookie("token",token,{ maxAge: 7 * 24 * 60 * 60 * 1000 });
             res.status(201).json({ message: "Logged in successfully", user: user });
         }
@@ -76,7 +78,7 @@ app.post("/login",async (req, res) => {
 app.post("/addCustomer",async (req,res)=>{
     try{
         // console.log(req.body);
-        let user = jwt.verify(req.cookies.token,"secret");
+        let user = jwt.verify(req.cookies.token,process.env.SECRET_KEY);
         // console.log(user);
         let userData = await User.findOne({name:user.name});
         // console.log(userData);
@@ -158,7 +160,7 @@ app.post("/addItems", async (req, res) => {
 
 app.get('/getCustomers', async (req, res) => {
     try {
-        let user = jwt.verify(req.cookies.token,"secret");
+        let user = jwt.verify(req.cookies.token,process.env.SECRET_KEY);
         let currentUser = await User.findOne({name : user.name});
 
         if (!currentUser || !Array.isArray(currentUser.customers)) {
@@ -181,7 +183,7 @@ app.get('/getCustomers', async (req, res) => {
 
 app.get("/getItems",async (req,res)=>{
     try{
-        let user = jwt.verify(req.cookies.token,"secret");
+        let user = jwt.verify(req.cookies.token,process.env.SECRET_KEY);
         let currentUser = await User.findOne({name : user.name});
         res.status(200).json({items:currentUser.items});
 
@@ -193,7 +195,7 @@ app.get("/getItems",async (req,res)=>{
 app.post("/buyItem",async (req,res)=>{
     try {
         // console.log(req.body);
-        let user = jwt.verify(req.cookies.token,"secret");
+        let user = jwt.verify(req.cookies.token,process.env.SECRET_KEY);
         let userData = await User.findOne({name : user.name});
         // console.log(userData);
         let index = 0;
