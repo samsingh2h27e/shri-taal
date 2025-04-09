@@ -62,7 +62,7 @@ app.post("/login",async (req, res) => {
     try {
         let user = await User.findOne({name:req.body.name});
         if(!user){
-            res.json({ message: "User not found" });
+            res.status(501).json({ message: "User not found" });
         }
         else{
             let token = jwt.sign({name:user.name},process.env.SECRET_KEY);
@@ -240,6 +240,18 @@ app.get("/logout",(req,res)=>{
     res.clearCookie("token",{path:"/"});
     res.status(200).json({ message: "Logged out successfully" });
 });
+
+app.post("/updatePassword",async (req,res)=>{
+    try {
+        console.log("entered");
+        let user = jwt.verify(req.cookies.token,process.env.SECRET_KEY);
+        await User.updateOne({name : user.name},{password : req.body.password});
+        console.log("updated");
+        res.status(200).json({ message: "Password updated successfully" });
+    }catch(error){
+        console.log(error);
+    }
+})
 
 app.listen(3000,()=>{
     console.log("Server is running on port 3000");
