@@ -66,7 +66,7 @@ app.post("/login",async (req, res) => {
         }
         else{
             let token = jwt.sign({name:user.name},process.env.SECRET_KEY);
-            res.cookie("token",token,{ maxAge: 7 * 24 * 60 * 60 * 1000 });
+            res.cookie("token",token,{ maxAge: 24 * 60 * 60 * 1000 });
             res.status(201).json({ message: "Logged in successfully", user: user });
         }
     } catch (error) {

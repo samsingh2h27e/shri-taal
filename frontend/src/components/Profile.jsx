@@ -44,7 +44,7 @@ export const Profile = ({ name }) => {
 
 
   return (
-    <div className="absolute right-58 z-50 bg-white rounded-b-xl">
+    <div className="z-50 bg-white rounded-b-xl">
         {!flag&&<div className="flex flex-col h-40 w-50 rounded-xl gap-4 m-auto p-4 text-xl border-2 font-bold">
             <button><p>hello {name}</p></button>
             <button onClick={changePassword}><p>change Password</p></button>
