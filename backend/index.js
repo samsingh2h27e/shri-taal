@@ -23,7 +23,7 @@ app.use(cookieParser());
 
 async function connect(){
     await connectDB();
-    console.log("Connected to database");
+    // console.log("Connected to database");
 }
 connect();
 
@@ -70,7 +70,7 @@ app.post("/login",async (req, res) => {
             res.status(201).json({ message: "Logged in successfully", user: user });
         }
     } catch (error) {
-        console.error(error);
+        // console.error(error);
     }
     // console.log(req);
 });
@@ -96,7 +96,7 @@ app.post("/addCustomer",async (req,res)=>{
             // console.log("entered1");
             // console.log(user);
             let balance = req.body.balance;
-            console.log(balance);
+            // console.log(balance);
             if (isNaN(balance)) {
                 // console.log("enter 1");
                 return res.status(400).json({ error: "Invalid balance: Must be a number." });
@@ -119,8 +119,8 @@ app.post("/addCustomer",async (req,res)=>{
         
     }
     catch(error){
-        console.log("enter 3");
-        console.error(error);
+        // console.log("enter 3");
+        // console.error(error);
         res.status(500).json({ error: error.message });
     }
 });
@@ -230,29 +230,29 @@ app.post("/buyItem",async (req,res)=>{
         });
         
     } catch (error) {
-        console.error(error);
+        // console.error(error);
         res.status(500).json({ error: error.message });
     }
 });
 
 app.get("/logout",(req,res)=>{
-    console.log("entered");
+    // console.log("entered");
     res.clearCookie("token",{path:"/"});
     res.status(200).json({ message: "Logged out successfully" });
 });
 
 app.post("/updatePassword",async (req,res)=>{
     try {
-        console.log("entered");
+        // console.log("entered");
         let user = jwt.verify(req.cookies.token,process.env.SECRET_KEY);
         await User.updateOne({name : user.name},{password : req.body.password});
-        console.log("updated");
+        // console.log("updated");
         res.status(200).json({ message: "Password updated successfully" });
     }catch(error){
-        console.log(error);
+        // console.log(error);
     }
 })
 
 app.listen(3000,()=>{
-    console.log("Server is running on port 3000");
+    // console.log("Server is running on port 3000");
 });

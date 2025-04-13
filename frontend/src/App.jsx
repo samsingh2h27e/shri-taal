@@ -32,7 +32,7 @@ function App() {
         }
       }
       catch(error){
-        console.log(error);
+        // console.log(error);
       }
     }
     fetch();
@@ -42,10 +42,10 @@ function App() {
       const response = await axios.get("http://localhost:3000/getCustomers");
       // console.log(response);
       setCustomers(response.data.customers);
-      console.log(response.data.customers);
+      // console.log(response.data.customers);
       setView("customers");
     } catch (error) {
-      console.error("Error fetching customers:", error);
+      // console.error("Error fetching customers:", error);
     }
   };
 
@@ -55,7 +55,7 @@ function App() {
       setItems(response.data.items);
       setView("items");
     } catch (error) {
-      console.error("Error fetching items:", error);
+      // console.error("Error fetching items:", error);
     }
   };
 
@@ -65,7 +65,7 @@ function App() {
   }
 
   const addItems = () =>{
-    console.log(user);
+    // console.log(user);
     nav("/add-item");
   }
 

@@ -17,7 +17,7 @@ export const Profile = ({ name }) => {
             let response = await axios.post("http://localhost:3000/updatePassword",{
                 password
             });
-            console.log(response);
+            // console.log(response);
             if(response.status===200){
                 alert("Password changed successfully");
                 setFlag(false);
@@ -25,20 +25,20 @@ export const Profile = ({ name }) => {
                 alert("Invalid credentials");
             }
         }catch(error){
-            console.error(error);
+            // console.error(error);
         }
     }
 
     async function logout(params) {
-        console.log("pressed");
+        // console.log("pressed");
         try {
             let response = await axios.get("http://localhost:3000/logout");
-            console.log(response);
+            // console.log(response);
             if(response.status===200){
                 nav("/login");
             }
         } catch (error) {
-            console.error(error);
+            // console.error(error);
         }
     }
 

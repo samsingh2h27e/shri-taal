@@ -14,7 +14,7 @@ export const BuyItem = () => {
     const [searchParams] = useSearchParams();
     const customer = JSON.parse(searchParams.get("customer")); // Extract customer from query params
 
-    console.log(customer); // Ensure it's correctly received
+    // console.log(customer); // Ensure it's correctly received
 
     async function handleSubmit(event) {
         event.preventDefault();
@@ -27,7 +27,7 @@ export const BuyItem = () => {
             money,
         });
 
-        console.log(response);
+        // console.log(response);
         if(response){
             setRes(true);
             setBalance(response.data.customer.currentBalance);

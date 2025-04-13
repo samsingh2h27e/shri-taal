@@ -18,7 +18,7 @@ export const AddItems = () => {
                 quantity,
                 price
             })
-            console.log(response);
+            // console.log(response);
             nav("/");
         }
         add();

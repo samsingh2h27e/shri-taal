@@ -9,12 +9,12 @@ export const UpdateCustomer = () =>{
 
     const update = (p) =>{
         p.preventDefault();
-        console.log("enter");
+        // console.log("enter");
     }
 
     const remove = (p) =>{
         p.preventDefault();
-        console.log("enter1");
+        // console.log("enter1");
     }
 
     return <div className="h-screen w-full flex justify-center">

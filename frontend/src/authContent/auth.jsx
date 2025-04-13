@@ -26,7 +26,7 @@ export const Register = () =>{
             }
         }
         catch(error){
-            console.log(error);
+            // console.log(error);
         }   
 }
 
@@ -79,7 +79,7 @@ export const Login = () =>{
         }
         catch(error){
             // console.log("not working")
-            console.log(error);
+            // console.log(error);
         }
     }
     return (

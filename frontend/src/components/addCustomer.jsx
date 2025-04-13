@@ -18,7 +18,7 @@ export const Addcustomer = () =>{
                 phone,
                 balance
             });
-            console.log(response);
+            // console.log(response);
             nav("/");
         }
         add();
