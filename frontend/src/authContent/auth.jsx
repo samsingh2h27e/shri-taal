@@ -49,7 +49,7 @@ export const Register = () =>{
                     <input onChange={(e)=>{
                         setPhone(e.target.value);
                     }} className="w-100 h-12 outline-1 rounded-sm p-3" type="text" placeholder="Phone number" />
-                    <button className="m-auto mt-10 bg-green-300 w-100 h-12 rounded-md outline-1 mb-0">Register</button>
+                    <button className="m-auto bg-green-500 hover:bg-green-600 w-100 w-100 h-12 rounded-md outline-1 mb-0">Register</button>
                 </form>
             </div>
         </div>
@@ -60,11 +60,13 @@ export const Login = () =>{
     const nav = useNavigate();
     const [name,setName] = useState("");
     const [password,setPassword] = useState("");
+    const [email,setEmail] = useState("");
     async function handleLogin(p) {
         p.preventDefault();
         try{
             let res = await axios.post("http://localhost:3000/login",{
                 name,
+                email,
                 password
             });
             // console.log(res);
@@ -85,7 +87,7 @@ export const Login = () =>{
     return (
         <div>
             <div className="flex flex-col h-100 w-100 m-auto mt-20">
-                <h1 className="text-3xl m-auto mt-5">
+                <h1 className="text-3xl m-auto mt-5 mb-7">
                     Login
                 </h1>
                 <form onSubmit={handleLogin} className="flex gap-3 flex-col m-auto mt-0">
@@ -93,10 +95,13 @@ export const Login = () =>{
                         setName(e.target.value);
                     }} className="w-100 h-14 outline-1 p-3 rounded-sm" type="text" placeholder="Name" />
                     <input onChange={(e)=>{
+                        setEmail(e.target.value);
+                    }} className="w-100 h-14 outline-1 p-3 rounded-sm" type="email" placeholder="email" />
+                    <input onChange={(e)=>{
                         setPassword(e.target.value);
                     }} className="w-100 h-14 outline-1 p-3 rounded-sm" type="password" placeholder="Password" />
-                    <button className="m-auto mt-10 bg-green-300 w-100 h-20 rounded-md outline-1 mb-0">Login</button>
-                    <button onClick={()=>{
+                    <button className="m-auto bg-blue-500 hover:bg-blue-600 w-100 h-15 rounded-md outline-1 mb-0">Login</button>
+                    <button className="m-auto bg-green-500 hover:bg-green-600 w-100 h-15 rounded-md outline-1 mb-0" onClick={()=>{
                         nav("/register");
                     }}>Register</button>
                 </form>

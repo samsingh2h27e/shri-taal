@@ -10,7 +10,7 @@ import env from 'dotenv';
 import bcrypt from "bcrypt";
 
 env.config();
-
+const salt_round = 10;
 const app = express();
 
 app.use(cors({
@@ -51,7 +51,7 @@ app.post("/register",async (req,res)=>{
         console.log(req.body);
         const pass = req.body.password;
         console.log(pass);
-        let hash = await bcrypt.hash(pass,process.env.SALT);
+        let hash = await bcrypt.hash(pass,salt_round);
         console.log(hash);
         const newUser = {name:req.body.name,email:req.body.email,password:hash,phone:req.body.phone};
         let user = new User(newUser);
@@ -68,7 +68,7 @@ app.post("/register",async (req,res)=>{
 
 app.post("/login",async (req, res) => {
     try {
-        let user = await User.findOne({name:req.body.name});
+        let user = await User.findOne({name:req.body.name,email:req.body.email});
         if(!user){
             res.status(501).json({ message: "User not found" });
         }
