@@ -7,6 +7,8 @@ import MongoStore from "connect-mongo";
 import jwt from "jsonwebtoken";
 import cookieParser from "cookie-parser";
 import env from 'dotenv';
+import bcrypt from "bcrypt";
+
 env.config();
 
 const app = express();
@@ -46,14 +48,20 @@ app.get("/",(req,res)=>{
 
 app.post("/register",async (req,res)=>{
     try{
-        // console.log(req.body);
-        let user = new User(req.body);
+        console.log(req.body);
+        const pass = req.body.password;
+        console.log(pass);
+        let hash = await bcrypt.hash(pass,process.env.SALT);
+        console.log(hash);
+        const newUser = {name:req.body.name,email:req.body.email,password:hash,phone:req.body.phone};
+        let user = new User(newUser);
         await user.save();
         let token = jwt.sign({name:user.name},process.env.SECRET_KEY);
         // console.log(token);
         res.cookie("token",token,{ maxAge: 7 * 24 * 60 * 60 * 1000});
         res.status(201).json({ message: "User registered successfully", user: user });
     } catch (error) {
+        console.log("enter")
       res.status(500).json({ error: error.message });
     }
 });
@@ -65,12 +73,17 @@ app.post("/login",async (req, res) => {
             res.status(501).json({ message: "User not found" });
         }
         else{
-            let token = jwt.sign({name:user.name},process.env.SECRET_KEY);
-            res.cookie("token",token,{ maxAge: 24 * 60 * 60 * 1000 });
-            res.status(201).json({ message: "Logged in successfully", user: user });
+            let isMatch = await bcrypt.compare(req.body.password,user.password);
+            if(isMatch){
+                let token = jwt.sign({name:user.name},process.env.SECRET_KEY);
+                res.cookie("token",token,{ maxAge: 24 * 60 * 60 * 1000 });
+                res.status(201).json({ message: "Logged in successfully", user: user });
+            }else{
+                res.json({ message: "Invalid credentials" });
+            }
         }
     } catch (error) {
-        // console.error(error);
+        console.error(error);
     }
     // console.log(req);
 });
