@@ -11,7 +11,7 @@ export const Register = () =>{
     async function handleSubmit(p){
         p.preventDefault();
         try{
-            let res = await axios.post("http://localhost:3000/register",{
+            let res = await axios.post(`${import.meta.env.VITE_URL}/register`,{
                 name,
                 email,
                 password,
@@ -63,8 +63,9 @@ export const Login = () =>{
     const [email,setEmail] = useState("");
     async function handleLogin(p) {
         p.preventDefault();
+        // console.log("${import.meta.env.VITE_URL}");
         try{
-            let res = await axios.post("http://localhost:3000/login",{
+            let res = await axios.post(`${import.meta.env.VITE_URL}/login`,{
                 name,
                 email,
                 password

@@ -14,7 +14,7 @@ export const Profile = ({ name }) => {
 
     async function newPassword(params){
         try {
-            let response = await axios.post("http://localhost:3000/updatePassword",{
+            let response = await axios.post(`${import.meta.env.VITE_URL}/updatePassword`,{
                 password
             });
             // console.log(response);
@@ -32,7 +32,7 @@ export const Profile = ({ name }) => {
     async function logout(params) {
         // console.log("pressed");
         try {
-            let response = await axios.get("http://localhost:3000/logout");
+            let response = await axios.get(`${import.meta.env.VITE_URL}/logout`);
             // console.log(response);
             if(response.status===200){
                 nav("/login");

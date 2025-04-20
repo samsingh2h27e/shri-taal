@@ -13,7 +13,7 @@ export const Addcustomer = () =>{
         p.preventDefault();
         // console.log(name,phone,balance);
         async function add(){
-            let response = await axios.post("http://localhost:3000/addCustomer",{
+            let response = await axios.post(`${import.meta.env.VITE_URL}/addCustomer`,{
                 name,
                 phone,
                 balance

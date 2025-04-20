@@ -48,11 +48,11 @@ app.get("/",(req,res)=>{
 
 app.post("/register",async (req,res)=>{
     try{
-        console.log(req.body);
+        // console.log(req.body);
         const pass = req.body.password;
-        console.log(pass);
+        // console.log(pass);
         let hash = await bcrypt.hash(pass,salt_round);
-        console.log(hash);
+        // console.log(hash);
         const newUser = {name:req.body.name,email:req.body.email,password:hash,phone:req.body.phone};
         let user = new User(newUser);
         await user.save();
@@ -61,13 +61,15 @@ app.post("/register",async (req,res)=>{
         res.cookie("token",token,{ maxAge: 7 * 24 * 60 * 60 * 1000});
         res.status(201).json({ message: "User registered successfully", user: user });
     } catch (error) {
-        console.log("enter")
+        // console.log("enter")
       res.status(500).json({ error: error.message });
     }
 });
 
 app.post("/login",async (req, res) => {
+    // console.log("enter");
     try {
+        // console.log(req.body);
         let user = await User.findOne({name:req.body.name,email:req.body.email});
         if(!user){
             res.status(501).json({ message: "User not found" });
@@ -141,11 +143,12 @@ app.post("/addCustomer",async (req,res)=>{
 app.post("/addItems", async (req, res) => {
     // console.log("entered");
     try {
-        let { user, item, quantity, price } = req.body;
-        // console.log(user, item, quantity, price);
+        let user = jwt.verify(req.cookies.token,process.env.SECRET_KEY);
+        let { item, quantity, price } = req.body;
+        // console.log(user.name, item, quantity, price);
 
         // Fetch user data
-        const userData = await User.findOne({ name: user });
+        const userData = await User.findOne({ name: user.name });
         // console.log(userData.items);
         if (!userData) {
             // console.log("no user");
@@ -160,8 +163,8 @@ app.post("/addItems", async (req, res) => {
         let newItem = { itemName: item, quantity: Number(quantity), price: Number(price) };
         // console.log(newItem);
         userData.items.push(newItem);
-
-        await User.updateOne({ name: user }, { $set: { items: userData.items } });
+        // console.log("Before saving:", userData.items);
+        await User.updateOne({ name: user.name }, { $set: { items: userData.items } });
 
         // console.log("After saving:", userData.items);
         return res.status(201).json({ message: "Item added successfully", user: userData });
@@ -267,5 +270,5 @@ app.post("/updatePassword",async (req,res)=>{
 })
 
 app.listen(process.env.PORT,()=>{
-    console.log("Server is running on port "+process.env.PORT);
+    // console.log("Server is running on port "+process.env.PORT);
 });

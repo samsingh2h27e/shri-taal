@@ -6,7 +6,7 @@ import { Profile } from './components/Profile';
 
 // Ensure cookies are sent with requests for session handling
 axios.defaults.withCredentials = true;
-
+// console.log(import.meta.env.VITE_URL);
 function App() {
   const [customers, setCustomers] = useState([]);
   const [items, setItems] = useState([]);
@@ -19,7 +19,7 @@ function App() {
   useEffect(() =>{
     async function fetch(){
       try{
-        let res = await axios.get("http://localhost:3000/");
+        let res = await axios.get(`${import.meta.env.VITE_URL}/`);
         // console.log(res.data);
         if(res.data.message=="No token found"){
           // console.log("enter");
@@ -39,7 +39,7 @@ function App() {
   },[]);
   const fetchCustomers = async () => {
     try {
-      const response = await axios.get("http://localhost:3000/getCustomers");
+      const response = await axios.get(`${import.meta.env.VITE_URL}/getCustomers`);
       // console.log(response);
       setCustomers(response.data.customers);
       // console.log(response.data.customers);
@@ -51,7 +51,7 @@ function App() {
 
   const fetchItems = async () => {
     try {
-      const response = await axios.get("http://localhost:3000/getItems");
+      const response = await axios.get(`${import.meta.env.VITE_URL}/getItems`);
       setItems(response.data.items);
       setView("items");
     } catch (error) {

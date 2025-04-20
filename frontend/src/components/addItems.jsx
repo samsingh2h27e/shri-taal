@@ -13,7 +13,7 @@ export const AddItems = () => {
         p.preventDefault();
         // console.log(item,quantity,price);
         async function add(){
-            let response = await axios.post("http://localhost:3000/addItems",{
+            let response = await axios.post(`${import.meta.env.VITE_URL}/addItems`,{
                 item,
                 quantity,
                 price

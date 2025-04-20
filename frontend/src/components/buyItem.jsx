@@ -19,7 +19,7 @@ export const BuyItem = () => {
     async function handleSubmit(event) {
         event.preventDefault();
 
-        let response = await axios.post("http://localhost:3000/buyItem", {
+        let response = await axios.post(`${import.meta.env.VITE_URL}/buyItem`, {
             customer: customer.name,
             item,
             quantity,
