@@ -19,7 +19,7 @@ const allowedOrigins = process.env.NODE_ENV === 'production'
    : ['http://localhost:5173']; // Local development frontend
 
 app.use(cors({
-    origin: '*',
+    origin: allowedOrigins,
     methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
     credentials: true
 }));
