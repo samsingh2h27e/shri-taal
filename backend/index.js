@@ -13,12 +13,16 @@ env.config();
 const salt_round = 10;
 const app = express();
 
-app.use(cors({
-    origin: process.env.URL_FRONTEND,
-    methods: "GET,POST,PUT,DELETE", 
-    credentials: true
-  }));
 
+const allowedOrigins = process.env.NODE_ENV === 'production'
+   ? ['https://shri-taal-ukk2.vercel.app'] // Production frontend
+   : ['http://localhost:5173']; // Local development frontend
+
+app.use(cors({
+    origin: '*',
+    methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
+    credentials: true
+}));
 app.use(express.json());
 app.use(cookieParser());
 
